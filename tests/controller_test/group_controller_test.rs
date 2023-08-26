@@ -1,8 +1,10 @@
-use super::{init_app_state, randomize_string};
-use actix_web::{http, test, App};
+use actix_web::{App, http, test};
 use sqlx;
+
 use sqlx_user_crud::controller;
 use sqlx_user_crud::controller::group_controller::GroupUpdate;
+
+use super::{init_app_state, randomize_string};
 
 #[actix_rt::test]
 async fn get_group_returns_404_when_not_found() -> () {
@@ -12,7 +14,7 @@ async fn get_group_returns_404_when_not_found() -> () {
             .app_data(app_state.clone())
             .configure(controller::init_group_controller),
     )
-    .await;
+        .await;
 
     let req = test::TestRequest::get().uri("/group/0").to_request();
 
@@ -29,7 +31,7 @@ async fn post_group_returns_204_when_valid_group_is_added() -> () {
             .app_data(app_state.clone())
             .configure(controller::init_group_controller),
     )
-    .await;
+        .await;
 
     let group_name = randomize_string("user");
 
@@ -50,7 +52,7 @@ async fn patch_group_returns_204_when_group_is_patched() -> Result<(), sqlx::Err
             .app_data(app_state.clone())
             .configure(controller::init_group_controller),
     )
-    .await;
+        .await;
 
     let group_name = randomize_string("administrator");
     let _ = app_state.context.groups.add_group(&group_name).await?;
@@ -78,7 +80,7 @@ async fn delete_group_returns_200_when_group_is_deleted() -> Result<(), sqlx::Er
             .app_data(app_state.clone())
             .configure(controller::init_group_controller),
     )
-    .await;
+        .await;
 
     let group_name = randomize_string("developers");
     let _ = app_state.context.groups.add_group(&group_name).await?;

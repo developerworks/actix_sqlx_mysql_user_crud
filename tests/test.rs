@@ -1,6 +1,7 @@
+use uuid::Uuid;
+
 use sqlx_user_crud::config::Config;
 use sqlx_user_crud::dao::Database;
-use uuid::Uuid;
 
 fn randomize_string(input: &'static str) -> String {
     format!("{0}{1}", input, Uuid::new_v4().to_string())

@@ -1,6 +1,7 @@
+use sqlx::mysql::MySqlQueryAs;
+
 use super::Group;
 use super::Table;
-use sqlx::mysql::MySqlQueryAs;
 
 impl<'c> Table<'c, Group> {
     pub async fn create_table(&self) -> Result<u64, sqlx::Error> {
@@ -14,8 +15,8 @@ impl<'c> Table<'c, Group> {
             )
         "#,
         )
-        .execute(&*self.pool)
-        .await
+            .execute(&*self.pool)
+            .await
     }
 
     pub async fn drop_table(&self) -> Result<u64, sqlx::Error> {
@@ -32,9 +33,9 @@ impl<'c> Table<'c, Group> {
             WHERE `id` = ?
         "#,
         )
-        .bind(id)
-        .fetch_one(&*self.pool)
-        .await
+            .bind(id)
+            .fetch_one(&*self.pool)
+            .await
     }
 
     pub async fn get_group_by_name(&self, name: &str) -> Result<Group, sqlx::Error> {
@@ -45,9 +46,9 @@ impl<'c> Table<'c, Group> {
             WHERE `name` = ?
         "#,
         )
-        .bind(name)
-        .fetch_one(&*self.pool)
-        .await
+            .bind(name)
+            .fetch_one(&*self.pool)
+            .await
     }
 
     pub async fn add_group(&self, name: &str) -> Result<u64, sqlx::Error> {
@@ -57,9 +58,9 @@ impl<'c> Table<'c, Group> {
             VALUES (?)
         "#,
         )
-        .bind(name)
-        .execute(&*self.pool)
-        .await
+            .bind(name)
+            .execute(&*self.pool)
+            .await
     }
 
     pub async fn update_group(
@@ -74,10 +75,10 @@ impl<'c> Table<'c, Group> {
             WHERE `name` = ?
         "#,
         )
-        .bind(update)
-        .bind(current)
-        .execute(&*self.pool)
-        .await
+            .bind(update)
+            .bind(current)
+            .execute(&*self.pool)
+            .await
     }
 
     pub async fn delete_group(&self, name: &str) -> Result<u64, sqlx::Error> {
@@ -87,8 +88,8 @@ impl<'c> Table<'c, Group> {
             WHERE `name` = ?
         "#,
         )
-        .bind(name)
-        .execute(&*self.pool)
-        .await
+            .bind(name)
+            .execute(&*self.pool)
+            .await
     }
 }

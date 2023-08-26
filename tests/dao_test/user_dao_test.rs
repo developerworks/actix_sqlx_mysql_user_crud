@@ -1,7 +1,9 @@
-use super::{init_db_context, randomize_string};
 use sqlx;
-use sqlx_user_crud::model::User;
 use uuid::Uuid;
+
+use sqlx_user_crud::model::User;
+
+use super::{init_db_context, randomize_string};
 
 #[actix_rt::test]
 async fn add_user_returns_1() -> Result<(), sqlx::Error> {
@@ -22,8 +24,7 @@ async fn add_user_returns_1() -> Result<(), sqlx::Error> {
 }
 
 #[actix_rt::test]
-async fn add_user_returns_err_when_duplicate_username_is_added(
-) -> Result<(), sqlx::Error> {
+async fn add_user_returns_err_when_duplicate_username_is_added() -> Result<(), sqlx::Error> {
     let db = init_db_context().await;
 
     let name = randomize_string("bob");

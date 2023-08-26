@@ -1,5 +1,6 @@
-use crate::dao::Database;
 use std::sync::{Arc, Mutex};
+
+use crate::dao::Database;
 
 pub mod config;
 pub mod controller;

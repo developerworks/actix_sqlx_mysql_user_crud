@@ -1,8 +1,10 @@
-use super::log_request;
-use super::AppState;
-use crate::model::User;
-use actix_web::{delete, get, patch, post, web, HttpResponse, Responder};
+use actix_web::{delete, get, HttpResponse, patch, post, Responder, web};
 use uuid::Uuid;
+
+use crate::model::User;
+
+use super::AppState;
+use super::log_request;
 
 pub fn init(cfg: &mut web::ServiceConfig) {
     cfg.service(get_user);

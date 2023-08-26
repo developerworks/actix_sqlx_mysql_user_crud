@@ -1,11 +1,13 @@
-use serde::Deserialize;
 use std::fs;
+
+use serde::Deserialize;
 
 #[derive(Deserialize)]
 struct AppConfig {
     url: String,
     port: u16,
 }
+
 #[derive(Deserialize)]
 struct DaoConfig {
     user: String,
@@ -13,6 +15,7 @@ struct DaoConfig {
     address: String,
     database: String,
 }
+
 #[derive(Deserialize)]
 pub struct Config {
     app: AppConfig,

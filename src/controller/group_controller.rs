@@ -1,7 +1,8 @@
-use super::log_request;
-use super::AppState;
-use actix_web::{delete, get, patch, post, web, HttpResponse, Responder};
+use actix_web::{delete, get, HttpResponse, patch, post, Responder, web};
 use serde::{Deserialize, Serialize};
+
+use super::AppState;
+use super::log_request;
 
 pub fn init(cfg: &mut web::ServiceConfig) {
     cfg.service(get_group_by_id);

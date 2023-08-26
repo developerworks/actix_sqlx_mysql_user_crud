@@ -1,7 +1,8 @@
+use sqlx::mysql::MySqlQueryAs;
+
 use super::Group;
 use super::JoinTable;
 use super::User;
-use sqlx::mysql::MySqlQueryAs;
 
 impl<'c> JoinTable<'c, User, Group> {
     pub async fn create_table(&self) -> Result<u64, sqlx::Error> {
@@ -16,8 +17,8 @@ impl<'c> JoinTable<'c, User, Group> {
             )
         "#,
         )
-        .execute(&*self.pool)
-        .await
+            .execute(&*self.pool)
+            .await
     }
 
     pub async fn drop_table(&self) -> Result<u64, sqlx::Error> {
@@ -31,14 +32,14 @@ impl<'c> JoinTable<'c, User, Group> {
         user_id: &String,
         groups: &Vec<Group>,
     ) -> Result<u64, sqlx::Error> {
-        if 0 == groups.len() {
+        if groups.is_empty() {
             Ok(0)
         } else {
             let insert_statement = build_insert_statement(groups.len());
             let mut query = sqlx::query(&insert_statement);
 
             for group in groups {
-                query = query.bind(user_id).bind(group.id)
+                query = query.bind(user_id).bind(group.clone().id)
             }
 
             query.execute(&*self.pool).await
@@ -58,9 +59,9 @@ impl<'c> JoinTable<'c, User, Group> {
             )
         "#,
         )
-        .bind(user_id)
-        .fetch_all(&*self.pool)
-        .await
+            .bind(user_id)
+            .fetch_all(&*self.pool)
+            .await
     }
 
     pub async fn delete_by_user_id(&self, user_id: &String) -> Result<u64, sqlx::Error> {
@@ -71,9 +72,9 @@ impl<'c> JoinTable<'c, User, Group> {
             WHERE `user_id` = ?
         "#,
         )
-        .bind(user_id)
-        .execute(&*self.pool)
-        .await
+            .bind(user_id)
+            .execute(&*self.pool)
+            .await
     }
 
     pub async fn delete_by_group_id(&self, group_id: u64) -> Result<u64, sqlx::Error> {
@@ -84,13 +85,13 @@ impl<'c> JoinTable<'c, User, Group> {
             WHERE `group_id` = ?
         "#,
         )
-        .bind(group_id)
-        .execute(&*self.pool)
-        .await
+            .bind(group_id)
+            .execute(&*self.pool)
+            .await
     }
 
     pub async fn update_user_groups(&self, user: &User) -> Result<u64, sqlx::Error> {
-        if 0 == user.groups.len() {
+        if user.groups.is_empty() {
             self.delete_by_user_id(&user.id).await
         } else {
             let deleted = self.delete_by_user_id(&user.id).await?;
@@ -100,7 +101,7 @@ impl<'c> JoinTable<'c, User, Group> {
     }
 }
 
-static DEFAULT_INSERT: &'static str = r#"
+static DEFAULT_INSERT: &str = r#"
     INSERT INTO `users_to_groups` (`user_id`, `group_id`)
     VALUES (?,?)
 "#;

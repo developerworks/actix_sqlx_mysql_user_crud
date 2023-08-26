@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
-use sqlx::mysql::MySqlRow;
 use sqlx::{FromRow, Row};
+use sqlx::mysql::MySqlRow;
 
 #[derive(Serialize, Deserialize, PartialEq, Clone)]
 pub struct Group {

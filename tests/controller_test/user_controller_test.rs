@@ -1,9 +1,12 @@
-use super::init_app_state;
-use crate::randomize_string;
-use actix_web::{http, test, App};
+use actix_web::{App, http, test};
+use uuid::Uuid;
+
 use sqlx_user_crud::controller;
 use sqlx_user_crud::model::User;
-use uuid::Uuid;
+
+use crate::randomize_string;
+
+use super::init_app_state;
 
 #[actix_rt::test]
 async fn get_user_returns_err_when_not_found() -> () {
@@ -13,7 +16,7 @@ async fn get_user_returns_err_when_not_found() -> () {
             .app_data(app_state.clone())
             .configure(controller::init_user_controller),
     )
-    .await;
+        .await;
 
     let req = test::TestRequest::get().uri("/user/n0t-f0un5").to_request();
 
@@ -29,7 +32,7 @@ async fn get_user_returns_200_when_user_exists() -> Result<(), sqlx::Error> {
             .app_data(app_state.clone())
             .configure(controller::init_user_controller),
     )
-    .await;
+        .await;
 
     let user = User {
         id: Uuid::new_v4().to_string(),
@@ -57,7 +60,7 @@ async fn post_user_returns_202_when_user_is_valid() -> () {
             .app_data(app_state.clone())
             .configure(controller::init_user_controller),
     )
-    .await;
+        .await;
 
     let user = User {
         id: Uuid::new_v4().to_string(),
@@ -84,7 +87,7 @@ async fn post_user_returns_202_when_user_and_groups_are_valid() -> Result<(), sq
             .app_data(app_state.clone())
             .configure(controller::init_user_controller),
     )
-    .await;
+        .await;
 
     let group = randomize_string("custodians");
     let _ = app_state.context.groups.add_group(&group).await?;
@@ -115,7 +118,7 @@ async fn post_user_returns_500_when_user_already_exists() -> Result<(), sqlx::Er
             .app_data(app_state.clone())
             .configure(controller::init_user_controller),
     )
-    .await;
+        .await;
 
     let user = User {
         id: Uuid::new_v4().to_string(),
@@ -144,7 +147,7 @@ async fn patch_user_returns_404_when_user_does_not_exist() -> () {
             .app_data(app_state.clone())
             .configure(controller::init_user_controller),
     )
-    .await;
+        .await;
 
     let user = User {
         id: Uuid::new_v4().to_string(),
@@ -170,7 +173,7 @@ async fn patch_user_returns_202_when_user_exists() -> Result<(), sqlx::Error> {
             .app_data(app_state.clone())
             .configure(controller::init_user_controller),
     )
-    .await;
+        .await;
 
     let mut user = User {
         id: Uuid::new_v4().to_string(),
@@ -199,7 +202,7 @@ async fn delete_user_returns_404_when_user_does_not_exist() -> () {
             .app_data(app_state.clone())
             .configure(controller::init_user_controller),
     )
-    .await;
+        .await;
 
     let user_id = Uuid::new_v4().to_string();
 
@@ -219,7 +222,7 @@ async fn delete_user_returns_200_when_user_exists() -> Result<(), sqlx::Error> {
             .app_data(app_state.clone())
             .configure(controller::init_user_controller),
     )
-    .await;
+        .await;
 
     let user = User {
         id: Uuid::new_v4().to_string(),

@@ -1,7 +1,8 @@
-use super::Group;
 use serde::{Deserialize, Serialize};
-use sqlx::mysql::MySqlRow;
 use sqlx::{FromRow, Row};
+use sqlx::mysql::MySqlRow;
+
+use super::Group;
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct User {

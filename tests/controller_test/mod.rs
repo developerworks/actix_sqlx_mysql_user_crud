@@ -1,8 +1,11 @@
-use super::{init_db_context, randomize_string};
+use std::sync::{Arc, Mutex};
+
 use actix_web::web;
 use actix_web::web::Data;
+
 use sqlx_user_crud::AppState;
-use std::sync::{Arc, Mutex};
+
+use super::{init_db_context, randomize_string};
 
 async fn init_app_state() -> Data<AppState<'static>> {
     let db_context = init_db_context().await;

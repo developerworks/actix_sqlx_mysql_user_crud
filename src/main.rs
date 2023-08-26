@@ -1,8 +1,10 @@
-use actix_web::{web, App, HttpServer};
+use std::sync::{Arc, Mutex};
+
+use actix_web::{App, HttpServer, web};
+
+use sqlx_user_crud::{AppState, controller};
 use sqlx_user_crud::config::Config;
 use sqlx_user_crud::dao::Database;
-use sqlx_user_crud::{controller, AppState};
-use std::sync::{Arc, Mutex};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -37,7 +39,7 @@ async fn main() -> std::io::Result<()> {
             .configure(controller::init_user_controller)
             .configure(controller::init_group_controller)
     })
-    .bind(config.get_app_url())?;
+        .bind(config.get_app_url())?;
     println!("Listening on: {0}", config.get_app_url());
 
     app.run().await

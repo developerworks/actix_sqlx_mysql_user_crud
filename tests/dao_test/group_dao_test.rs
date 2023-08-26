@@ -1,5 +1,6 @@
-use super::{init_db_context, randomize_string};
 use sqlx;
+
+use super::{init_db_context, randomize_string};
 
 #[actix_rt::test]
 async fn add_group_returns_1_when_group_is_valid() -> () {

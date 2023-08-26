@@ -1,7 +1,10 @@
-use super::init_db_context;
-use actix_web::{test, web, App};
-use sqlx_user_crud::{controller, AppState};
 use std::sync::{Arc, Mutex};
+
+use actix_web::{App, test, web};
+
+use sqlx_user_crud::{AppState, controller};
+
+use super::init_db_context;
 
 #[actix_rt::test]
 async fn status_returns_ok_and_message() -> () {
@@ -17,7 +20,7 @@ async fn status_returns_ok_and_message() -> () {
             .app_data(app_state.clone())
             .configure(controller::init_index_controller),
     )
-    .await;
+        .await;
 
     let req = test::TestRequest::get().uri("/status").to_request();
 

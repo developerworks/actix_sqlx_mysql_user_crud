@@ -3,8 +3,7 @@
     "url": "127.0.0.1",
     "port": 8000
   },
-  "dao":
-  {
+  "dao": {
     "user": "sqlx_user_crud",
     "password": "rust_is_the_future",
     "address": "localhost",

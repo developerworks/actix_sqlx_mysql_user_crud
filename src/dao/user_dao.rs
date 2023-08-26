@@ -1,6 +1,7 @@
+use sqlx::mysql::MySqlQueryAs;
+
 use super::Table;
 use super::User;
-use sqlx::mysql::MySqlQueryAs;
 
 impl<'c> Table<'c, User> {
     pub async fn drop_table(&self) -> Result<u64, sqlx::Error> {
@@ -19,8 +20,8 @@ impl<'c> Table<'c, User> {
             PRIMARY KEY (id)
             )"#,
         )
-        .execute(&*self.pool)
-        .await
+            .execute(&*self.pool)
+            .await
     }
 
     pub async fn get_user_by_id(&self, user_id: &str) -> Result<User, sqlx::Error> {
@@ -30,9 +31,9 @@ impl<'c> Table<'c, User> {
             FROM `users`
             WHERE `id` = ?"#,
         )
-        .bind(user_id)
-        .fetch_one(&*self.pool)
-        .await
+            .bind(user_id)
+            .fetch_one(&*self.pool)
+            .await
     }
 
     pub async fn add_user(&self, user: &User) -> Result<u64, sqlx::Error> {
@@ -41,11 +42,11 @@ impl<'c> Table<'c, User> {
             INSERT INTO users (`id`, `name`, `email`)
             VALUES(?, ?, ?)"#,
         )
-        .bind(&user.id)
-        .bind(&user.name)
-        .bind(&user.email)
-        .execute(&*self.pool)
-        .await
+            .bind(&user.id)
+            .bind(&user.name)
+            .bind(&user.email)
+            .execute(&*self.pool)
+            .await
     }
 
     pub async fn update_user(&self, user: &User) -> Result<u64, sqlx::Error> {
@@ -56,11 +57,11 @@ impl<'c> Table<'c, User> {
             WHERE `id` = ?
             "#,
         )
-        .bind(&user.name)
-        .bind(&user.email)
-        .bind(&user.id)
-        .execute(&*self.pool)
-        .await
+            .bind(&user.name)
+            .bind(&user.email)
+            .bind(&user.id)
+            .execute(&*self.pool)
+            .await
     }
 
     pub async fn delete_user(&self, user_id: &str) -> Result<u64, sqlx::Error> {
@@ -70,8 +71,8 @@ impl<'c> Table<'c, User> {
             WHERE `id` = ?
             "#,
         )
-        .bind(user_id)
-        .execute(&*self.pool)
-        .await
+            .bind(user_id)
+            .execute(&*self.pool)
+            .await
     }
 }
